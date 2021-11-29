@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
     //dumpsys activity com.example.lab_three_point_three | grep Fragment{
     private lateinit var navController: NavController
     private lateinit var drawer: DrawerLayout
-    private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,25 +25,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         navController = (supportFragmentManager.findFragmentById(R.id.fragContainer)
-                as NavHostFragment).navController
+                as NavHostFragment).navController//поиск навконтроллера
+
         drawer = findViewById(R.id.drawer_layout)
         appBarConfiguration = AppBarConfiguration(navController.graph, drawer)
 
         setupActionBarWithNavController(navController,
-            AppBarConfiguration(navController.graph, drawer))
+            AppBarConfiguration(navController.graph, drawer))//в бургер
 
         findViewById<NavigationView>(R.id.nav_view).setupWithNavController(navController)
-
-        toggle = ActionBarDrawerToggle(this, drawer,
-            R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer.addDrawerListener(toggle)
-        toggle.syncState()
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        drawer.addDrawerListener(toggle)
-        toggle.syncState()
-        return if (drawer.isDrawerOpen(GravityCompat.START)) {
+        return if (drawer.isDrawerOpen(GravityCompat.START)) {//показывать upnav если нет шторки
             drawer.closeDrawer(GravityCompat.START)
             true
         } else {
